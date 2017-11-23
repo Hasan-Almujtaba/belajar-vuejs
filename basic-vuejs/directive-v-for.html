@@ -6,8 +6,8 @@
 <body>
 	<div id="dw">
 		<ul class="list-group">
-			<li v-for="language in languages">
-				Saya Belajar Bahasa pemrograman <b>"{{ language.name }}"</b> dengan pengalaman <b>{{ language.experience }}</b></b>
+			<li v-for="(key, language) in languages">
+				{{ key }} Saya Belajar Bahasa pemrograman <b>"{{ language.name }}"</b> dengan pengalaman <b>{{ language.experience }}</b></b>
 			</li>
 		</ul>
 	</div>
