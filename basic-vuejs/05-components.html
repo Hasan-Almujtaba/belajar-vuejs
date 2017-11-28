@@ -1,50 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Component - Daengweb</title>
+	<title>Components - Daengweb</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style type="text/css">
+		body {
+			padding-top: 60px;
+		}
+	</style>
 </head>
 <body>
 	<div id="dw" class="container">
-		<h1>Jadwal Senin</h1>
-		<ul>
-			<dw-paragraf v-for="dw in jadwal" v-bind:dw="dw"></dw-paragraf>
-		</ul>
-		<h1>Jadwal Selasa</h1>
-		<ul>
-			<dw-paragraf v-for="dw in jadwal" v-bind:dw="dw"></dw-paragraf>
-		</ul>
+		<domain v-model="domain" @applied="cekDomains"></domain>
+		<p v-if="tersedia"><strong>{{ domain }}</strong> Tersedia!</p>
 	</div>
 
 	<script type="text/javascript" src="https://unpkg.com/vue@2.5.6/dist/vue.js"></script>
-	<template id="dw-paragraf">
-		<li>{{ dw.isi }} pada jam {{ dw.jam }}</li>
+	
+	<template id="form">
+		<div>
+			<input class="form-control" ref="input" :value="value" @input="cekDomain($event.target.value)">
+			<button v-on:click="cekDomains" class="btn btn-danger">Cek</button>
+		</div>
 	</template>
 	<script type="text/javascript">
-		Vue.component('dw-paragraf', {
-			props: ['dw'],
-			template: '#dw-paragraf'
+		Vue.component('domain', {
+			props: ['value'],
+			template: '#form',
+			methods: {
+				cekDomain(value) {
+					this.$emit('input', value);
+				},
+				cekDomains() {
+					this.$emit('applied');
+				}
+			}
 		});
 
 		new Vue({
 			el: '#dw',
 			data: {
-				jadwal: [
-					{
-						isi: 'belajar vue.js', jam: '10.00'
-					},
-					{
-						isi: 'belajar Laravel', jam: '12.00'
-					},
-					{
-						isi: 'belajar HTML', jam: '18.00'
-					}
-				]
+				domain: '',
+				tersedia: false
+			},
+			methods: {
+				cekDomains() {
+					this.tersedia = true;
+				}
 			}
 		});	
 	</script>
